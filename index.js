@@ -5,6 +5,10 @@ const YelpAPIKey='S1muYNYZsbpgz9sFQZEziIh-gIGQBP51SAHOszwWTsyLz25ediUv8aavlOV_UM
 const searchQuery = {
   term:""
 };
+const STORE = {
+    searchQuery:"",
+    location:"pukeville"
+}
 
 function youtubeHTML(firstVideo){
     console.log("youtubeHTML Section");
@@ -114,27 +118,47 @@ function getLocation(){
 //        x.innerHTML = "Geolocation is not supported by this browser.";
     }
 }
+
 function showPosition(position) {
     console.log(position);
 }
 
+function setLocation() {
+    const userLocation=$.getJSON('http://gd.geobytes.com/GetCityDetails?callback=?');
+    console.log(userLocation);
+    $.getJSON('http://gd.geobytes.com/GetCityDetails?callback=?', function(data) {
+    STORE.location=data.geobytesfqcn;
+//    console.log(STORE.location);
+//    console.log(userLocation);
+    });
+    console.log(STORE.location);
+
+    return userLocation;
+}
+
+function displayLocation(geo) {
+    $('.jslocation').html(`<p>Your location is ${geo}`);
+}
 
 
 function master() {
+    STORE.location=$.getJSON('http://gd.geobytes.com/GetCityDetails?callback=?', function(data) {
+        STORE.location=data.geobytesfqcn;
+        displayLocation(STORE.location);
+        });
+    new Def.Autocompleter.Search('condition','https://clinicaltables.nlm.nih.gov/api/conditions/v3/search');
     $('.js-searchForm').on('submit',function (event){
         event.preventDefault();
-        searchQuery.term = $('.searchBox').val();      
+        STORE.searchQuery = $('.searchBox').val();      
         $('.jsSearchQuery').val('');  
-        console.log(searchQuery.term);
-        searchYoutube(searchQuery.term);
+        console.log(STORE.searchQuery);
+        searchYoutube(STORE.searchQuery);
 //        searchGoogle(searchQuery.term);
-        searchYelp(searchQuery.term);
-        getLocation();
-
-
-    });
+        searchYelp(STORE.searchQuery);
+//        getLocation();
+ //       console.log(STORE.location);
+});
 };
-
 
 
 $(master);
