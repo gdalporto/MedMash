@@ -1,0 +1,17 @@
+OVERVIEW
+
+This application will accept a user search query for any medical condition.
+It will use auto complete to prompt user to pick a standardized medical condition
+The program will hit external APIs to collect information relating to the medical condition
+The program will render a mashup from several APIs including
+    Condition information
+    Videos on treatment for the condition
+    Local doctor listings and ratings specific to the treatment
+
+
+DATA SOURCES / APIs
+    Condition information: https://developer.healthgraphic.com/doc/doc/getting-started/#857
+    Videos on treatment: Youtube
+    Local Doctors: http://betterdoctor.com/ or yelp.
+
+
