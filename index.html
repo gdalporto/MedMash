@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Medical Condition Mashup</title>
     <link href="main.css" rel="stylesheet" type="text/css"/>
+    <link href='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/15.1.1/autocomplete-lhc_jQueryUI.min.css' rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src=index.js type="text/javascript"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -15,12 +16,11 @@
 
     </Header>
     <main>
-        <div class='topPage' role='banner'>
+        <div class='topPage'>
     <!-- area for search box-->
             <div class='searchSection'>
                 <form role="search" class='js-searchForm' action="#">
-                    <label class='searchText' for='condition'> <h2>Enter Medical Condition Here:</h2></label>
-                    <link href='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/15.1.1/autocomplete-lhc_jQueryUI.min.css' rel="stylesheet">
+                    <label class='searchText' for='condition'> <h1>Enter Medical Condition Here:</h1></label>
                     <script src='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/15.1.1/autocomplete-lhc_jQuery.min.js'></script>                
                     <input type="text" class="searchBox" id="condition" placeholder="Condition">
                     <button type='submit' class='submitButton'>submit</button>

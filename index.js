@@ -73,9 +73,15 @@ function searchYoutube(term){
       };
 //      console.log(query);
       $.getJSON(YouTubeAPIURL, query, displayYoutubeResults);
+//  can refactor with .ajax to use error handling.
 };
 
 // ------------ YELP CODE ----------------------------
+
+function yelpHTMLFailed(error){
+    $('.yelpResults').prop('hidden',false).html(`<div class='yelpResultsContainer'>Error: ${error}</div>`);
+}
+
 
 function yelpHeader(numDisplay,term) {
    return   `<div class="yelpHeader">
@@ -114,7 +120,7 @@ function yelpHTML (data, numDisplay, term){
         $('.yelpResultsContainer').append( 
         `<div id="${id}" class="eachYelpResult">
             <ul>
-                <li> <img class="yelpImage" src="${image}"></li>
+                <li> <img class="yelpImage" src="${image}" alt="Picture of ${name}"></li>
                 <li class="yelpName"> <span class="nameLabel">Name:</span> ${name} </li>
                 <li class="yelpRating">Star rating: ${rating} with ${reviewcount} reviews.</li>
                 <li class="yelpAddress"> Located at: ${address} ${city} ${state} ${zipcode}</li>
@@ -157,8 +163,18 @@ function searchYelp(term,location){
                 else {
                 // If our results are 0; no businesses were returned by the JSON therefor we display on the page no results were found
                     console.log("failedtomatch");
+                    let error="No Results";
+                    yelpHTMLFailed(error);
                 //           $('#results').append('<h5>We discovered no results!</h5>');
             };
+        },
+        error: function(a,b,c){
+            console.log(a,b,c);
+            yelpHTMLFailed(c);
+            //INSERT ERROR MESSAGE
+
+
+
         }
     });      
 

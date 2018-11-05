@@ -3,7 +3,7 @@ ul {
 }
 
 body {
-    background-image: linear-gradient(to bottom right, rgb(126, 193, 255), rgb(196, 196, 196));
+    background-image: linear-gradient(to bottom right, #5cb9ffad, rgb(196, 196, 196));
     background-repeat: no-repeat;
     background-attachment: fixed;
     font-family: 'Roboto', sans-serif;
