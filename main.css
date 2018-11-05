@@ -39,6 +39,11 @@ h2 {
     text-align:center;
 }
 
+.yourSearchTerm {
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
 .youtubeResults {
     display:inline-block;
     vertical-align:top;
@@ -75,7 +80,7 @@ h2 {
     border:1px solid grey;
     margin:0;
     padding:5px;
-    padding-bottom:5px;
+    margin-bottom:5px;
 }
 
 .YTResultsContainer {

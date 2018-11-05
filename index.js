@@ -17,7 +17,7 @@ function youtubeHTML(videos,term, numVideos){
     console.log(videos);
     console.log(term);
 
-    $('.youtubeResults').append(
+    $('.youtubeResults').prop('hidden',false).html(
         `<div class='YTResultsContainer'>
                 <h2 class="YT Response Title">Top ${displayNum} ${STORE.searchQuery} treatment videos on YouTube</h2>
         </div>`);
@@ -89,7 +89,7 @@ function yelpHTML (data, numDisplay, term){
     numDisplay=3;
     // Create a container
 
-    $('.yelpResults').html("<div class='yelpResultsContainer'></div>");
+    $('.yelpResults').prop('hidden',false).html("<div class='yelpResultsContainer'></div>");
     
     
     // Display a header on the page with the number of results
@@ -128,10 +128,11 @@ function yelpHTML (data, numDisplay, term){
 
 
 
-function searchYelp(term){
+function searchYelp(term,location){
 
     let YelpTerm=term+" doctor";
-    let location="chicago";
+    console.log(`YelpTerm is ${YelpTerm}`);
+//    let location="chicago";
     let YelpUrl = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term="+YelpTerm+"&location="+location;
     let i=0;
 
@@ -167,8 +168,11 @@ function searchYelp(term){
 
 function displayLocation(geo) {
     $('.location').html(`<p>Your location is ${geo}`);
-}
+};
 
+function youSearchedFor(term){
+    $('.yourSearchTerm').html(`Results for "${term}"`);
+};
 
 function master() {
 // Obtain and display current location
@@ -192,11 +196,14 @@ function master() {
             $('.searchBox').val('');  
             console.log(`Search Query is ${STORE.searchQuery}`);
 
+// Display search term
+            youSearchedFor(STORE.searchQuery);
+
 // Get videos on treatment options from YoutTube
             searchYoutube(STORE.searchQuery);
 
 // Get local doctors and reviews from Yelp 
-            searchYelp(STORE.searchQuery);
+            searchYelp(STORE.searchQuery, STORE.location);
         });
 };
 

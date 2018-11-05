@@ -15,7 +15,7 @@
 
     </Header>
     <main>
-        <div class='topPage'>
+        <div class='topPage' role='banner'>
     <!-- area for search box-->
             <div class='searchSection'>
                 <form role="search" class='js-searchForm' action="#">
@@ -34,13 +34,16 @@
 
         <div class='resultsArea'>
 
+            <!--area for search term -->
+            <div class='yourSearchTerm'></div>
+
             <!--area for youtube search results -->
-            <div class='youtubeResults'>
+            <div class='youtubeResults' aria-live="assertive" hidden>
 
             </div>
 
             <!-- area for doctors -->
-            <div class='yelpResults'>
+            <div class='yelpResults' aria-live="assertive" hidden>
                 
             </div>
         </div>
