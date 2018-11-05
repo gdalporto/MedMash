@@ -12,6 +12,8 @@ const STORE = {
 // ---------- YouTube Code ------------------------------
 
 function youtubeHTML(videos,term, numVideos){
+// present the data in the DOM
+
     let i=0;
     let k=0;
     let displayNum=3;
@@ -19,10 +21,13 @@ function youtubeHTML(videos,term, numVideos){
     console.log(videos);
     console.log(term);
 
+//ARIA-Live setting to visible, present title.
     $('.youtubeResults').prop('hidden',false).html(
         `<div class='YTResultsContainer'>
                 <h2 class="YT Response Title">Top ${displayNum} ${STORE.searchQuery} treatment videos on YouTube</h2>
         </div>`);
+
+// iterate through the videos until three have been presented.
 
         while(i<numVideos){
             if(videos[i].id.kind == "youtube#video"){
@@ -53,9 +58,8 @@ function youtubeHTML(videos,term, numVideos){
 };
 
 
-
-
 function displayYoutubeResults(YTAPIResults){
+// collect and organize data before presentation
     console.log(YTAPIResults);
     let numVideos=YTAPIResults.items.length;
     console.log(`number of videos: ${numVideos}`);
@@ -67,6 +71,8 @@ function displayYoutubeResults(YTAPIResults){
 
 
 function searchYoutube(term){
+// use JSON to hit the youtube APIs and collect response data, then pass to the display section.
+
     const query = {
         part: 'snippet',
         key: YouTubeAPIKey,
@@ -81,17 +87,23 @@ function searchYoutube(term){
 // ------------ YELP CODE ----------------------------
 
 function yelpHTMLFailed(error){
+// present this information if APIs fail in some way.
+
     $('.yelpResults').prop('hidden',false).html(`<div class='yelpResultsContainer'>Error: ${error}</div>`);
 }
 
 
 function yelpHeader(numDisplay,term) {
+// render the yelp header in the dom
+
    return   `<div class="yelpHeader">
                 <h2>Here are the top ${numDisplay} local physicians for ${term}!</h2>
             </div>`
 }
 
 function yelpHTML (data, numDisplay, term){
+
+// render the detailed yelp business data in the DOM
 
     let item=data.businesses;    
     numDisplay=3;
@@ -137,6 +149,8 @@ function yelpHTML (data, numDisplay, term){
 
 
 function searchYelp(term,location){
+
+// use ajax to hit the yelp API and retrieve matching businesses / doctors
 
     let YelpTerm=term+" doctor";
     console.log(`YelpTerm is ${YelpTerm}`);
@@ -184,15 +198,20 @@ function searchYelp(term,location){
 };
 
 function youSearchedFor(term){
+// present the search term in the DOM
+
     $('.yourSearchTerm').html(`Results for "${term}"`);
 };
 
 
 function displayLocation(city,state){
+// display location in the DOM
+
     $('.location').html(`<p>Your location is ${city}, ${state}`);
 };
 
 function getLocation(ip) {
+// this API takes a user's IP address and returns approximate geo location
 
     $.ajax({
         url: 'https://extreme-ip-lookup.com/json/'+ip,
@@ -207,6 +226,7 @@ function getLocation(ip) {
 };
 
 function getIP(){
+// this API retrieves the user's IP address
     $.ajax({
         url: 'https://api.ipify.org?format=json',
         method: 'GET',
