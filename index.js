@@ -2,30 +2,51 @@ const YouTubeAPIURL='https://www.googleapis.com/youtube/v3/search';
 const YouTubeAPIKey='AIzaSyBM6336kxCCw2JfhksBRaIzMPOgQMpXGo4';
 const YelpAPIURL='https://api.yelp.com/v3/businesses/search'
 const YelpAPIKey='S1muYNYZsbpgz9sFQZEziIh-gIGQBP51SAHOszwWTsyLz25ediUv8aavlOV_UMBGuqZhOZxPN1MJpUK-fm8Adncy35F1CdZ9DLJxfjCiB_wbBGFsBb_MXfO_SyzaW3Yx'
-const searchQuery = {
-  term:""
-};
 const STORE = {
     searchQuery:"",
     location:"pukeville"
 }
 
-function youtubeHTML(firstVideo){
-    console.log("youtubeHTML Section");
-    console.log(firstVideo.id.videoId);
-    console.log(firstVideo.id.videoId);
+// ---------- YouTube Code ------------------------------
 
-    return `
-        <div class='searchResultContainer-js'>
-        <div class='imageContainer'>
-            <iframe width="320" height="180" src="https://www.youtube.com/embed/${firstVideo.id.videoId}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div>
-            <a href="https://www.youtube.com/watch?v=${firstVideo.id.videoId}">    
-                <p class='title'>${firstVideo.snippet.title}</p>
-            </a>
-            <p class='description'>${firstVideo.snippet.description}</p}
-        </div>
-    `;
+function youtubeHTML(videos,term, numVideos){
+    let i=0;
+    let k=0;
+    let displayNum=3;
+    console.log("youtubeHTML Section");
+    console.log(videos);
+    console.log(term);
+
+    $('.youtubeResults').append(
+        `<div class='YTResultsContainer'>
+                <h2 class="YT Response Title">Top ${displayNum} ${STORE.searchQuery} treatment videos on YouTube</h2>
+        </div>`);
+
+        while(i<numVideos){
+            if(videos[i].id.kind == "youtube#video"){
+                $('.YTResultsContainer').append(
+                    `<div class="eachYTResult">
+                        <div class='YTimageContainer'>
+                            <iframe width="320" height="180" src="https://www.youtube.com/embed/${videos[i].id.videoId}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        </div>
+                            <a href="https://www.youtube.com/watch?v=${videos[i].id.videoId}">    
+                                <p class='YTtitle'>${videos[i].snippet.title}</p>
+                            </a>
+                            <p class='YTdescription'>${videos[i].snippet.description}</p>
+                        
+                    </div>`);
+                    k=k+1;
+                    if(k==displayNum){
+                        break;
+                    };        
+            }
+            i++
+        }    
+    
+
+    for(let i=0; i<=3; i++) {
+
+    }
 
 };
 
@@ -34,10 +55,12 @@ function youtubeHTML(firstVideo){
 
 function displayYoutubeResults(YTAPIResults){
     console.log(YTAPIResults);
-    const firstVideo = YTAPIResults.items[0];
-    console.log(firstVideo);
-    console.log(firstVideo.id);
-    $('.youtubeResults').html(youtubeHTML(firstVideo));
+    let numVideos=YTAPIResults.items.length;
+    console.log(`number of videos: ${numVideos}`);
+    let term=STORE.searchQuery;
+    console.log(`term is ${term}`);
+    youtubeHTML(YTAPIResults.items, term, numVideos);
+
 }
 
 
@@ -45,47 +68,63 @@ function searchYoutube(term){
     const query = {
         part: 'snippet',
         key: YouTubeAPIKey,
-        q: term,
+        q: term+" treatment",
         pageToken: ""
       };
-      console.log(query);
+//      console.log(query);
       $.getJSON(YouTubeAPIURL, query, displayYoutubeResults);
 };
 
-//function displayYelpResults(YAPIResults){
-//    console.log(YAPIResults);
-//    const firstVideo = YTAPIResults.items[0];
-//    console.log(firstVideo);
-//    console.log(firstVideo.id);
-//    $('.youtubeResults').html(youtubeHTML(firstVideo));
-//}
+// ------------ YELP CODE ----------------------------
 
-function yelpHTML (index, item){
+function yelpHeader(numDisplay,term) {
+   return   `<div class="yelpHeader">
+                <h2>Here are the top ${numDisplay} local physicians for ${term}!</h2>
+            </div>`
+}
+
+function yelpHTML (data, numDisplay, term){
+
+    let item=data.businesses;    
+    numDisplay=3;
+    // Create a container
+
+    $('.yelpResults').html("<div class='yelpResultsContainer'></div>");
     
-        // Store each business's object in a variable
-        var id = item.id;
-        var alias = item.alias;
-        var phone = item.display_phone;
-        var image = item.image_url;
-        var name = item.name;
-        var rating = item.rating;
-        var reviewcount = item.review_count;
-        var address = item.location.address1;
-        var city = item.location.city;
-        var state = item.location.state;
-        var zipcode = item.location.zip_code;
-        // Append our result into our page
-//                console.log(phone);
-        return `
-        <div id="${id}">
-            <img src="${image}" style="width:200px;height:150px;"><br>
-            We found <b>${name}</b> (${alias})<br>
-            Business ID: ${id}<br> 
-            Located at: ${address} ${city} ${state} ${zipcode}<br>
-            The phone number for this business is: ${phone}<br>
-            This business has a rating of ${rating} with ${reviewcount} reviews.
-        </div>')`;
-};
+    
+    // Display a header on the page with the number of results
+    $('.yelpResultsContainer').html(yelpHeader(numDisplay,term));
+
+    // Itirate through the JSON array of 'businesses' which was returned by the API
+    
+    for(let i=0;i<=numDisplay-1;i++) {
+        var id = item[i].id;
+        var alias = item[i].alias;
+        var phone = item[i].display_phone;
+        var image = item[i].image_url;
+        var name = item[i].name;
+        var rating = item[i].rating;
+        var reviewcount = item[i].review_count;
+        var address = item[i].location.address1;
+        var city = item[i].location.city;
+        var state = item[i].location.state;
+        var zipcode = item[i].location.zip_code;
+    // Append our result into our page
+
+        $('.yelpResultsContainer').append( 
+        `<div id="${id}" class="eachYelpResult">
+            <ul>
+                <li> <img class="yelpImage" src="${image}"></li>
+                <li class="yelpName"> <span class="nameLabel">Name:</span> ${name} </li>
+                <li class="yelpRating">Star rating: ${rating} with ${reviewcount} reviews.</li>
+                <li class="yelpAddress"> Located at: ${address} ${city} ${state} ${zipcode}</li>
+                <li class="yelpPhone> The phone number for this business is: ${phone}</li>
+            </ul>
+        </div>')`);
+    }
+}; 
+
+
 
 
 
@@ -111,16 +150,12 @@ function searchYelp(term){
             console.log(numDisplay);
             // If our results are greater than 0, continue
             if (numDisplay > 0){
-                // Display a header on the page with the number of results
-                $('.YelpResults').html(`<div class="yelpHeader">Here are the top ${numDisplay} physicians for ${term}!</div>`);
-                // Itirate through the JSON array of 'businesses' which was returned by the API
-                $.each(data.businesses, function(index, item){
-                    $('.YelpResults').append(yelpHTML(index,item));
-                }); 
+                //Display Yelp search results
+                yelpHTML(data, numDisplay, term);
             }
                 else {
                 // If our results are 0; no businesses were returned by the JSON therefor we display on the page no results were found
-                        console.log("failedtomatch");
+                    console.log("failedtomatch");
                 //           $('#results').append('<h5>We discovered no results!</h5>');
             };
         }
@@ -130,54 +165,39 @@ function searchYelp(term){
 };
 
 
-function getLocation(){
-
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-//        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
-}
-
-function showPosition(position) {
-    console.log(position);
-}
-
-function setLocation() {
-    const userLocation=$.getJSON('http://gd.geobytes.com/GetCityDetails?callback=?');
-    console.log(userLocation);
-    $.getJSON('http://gd.geobytes.com/GetCityDetails?callback=?', function(data) {
-    STORE.location=data.geobytesfqcn;
-//    console.log(STORE.location);
-//    console.log(userLocation);
-    });
-    console.log(STORE.location);
-
-    return userLocation;
-}
-
 function displayLocation(geo) {
-    $('.jslocation').html(`<p>Your location is ${geo}`);
+    $('.location').html(`<p>Your location is ${geo}`);
 }
 
 
 function master() {
+// Obtain and display current location
+
     STORE.location=$.getJSON('http://gd.geobytes.com/GetCityDetails?callback=?', function(data) {
         STORE.location=data.geobytesfqcn;
         displayLocation(STORE.location);
+        console.log(STORE.location);
         });
-    new Def.Autocompleter.Search('condition','https://clinicaltables.nlm.nih.gov/api/conditions/v3/search');
-    $('.js-searchForm').on('submit',function (event){
-        event.preventDefault();
-        STORE.searchQuery = $('.searchBox').val();      
-        $('.jsSearchQuery').val('');  
-        console.log(STORE.searchQuery);
-        searchYoutube(STORE.searchQuery);
-//        searchGoogle(searchQuery.term);
-        searchYelp(STORE.searchQuery);
-//        getLocation();
- //       console.log(STORE.location);
-});
+
+// Implement autocomplete function for 5K+ health conditions
+
+        new Def.Autocompleter.Search('condition','https://clinicaltables.nlm.nih.gov/api/conditions/v3/search');
+
+
+// Wait for user to submit search query
+
+        $('.js-searchForm').on('submit',function (event){
+            event.preventDefault();
+            STORE.searchQuery = $('.searchBox').val();      
+            $('.searchBox').val('');  
+            console.log(`Search Query is ${STORE.searchQuery}`);
+
+// Get videos on treatment options from YoutTube
+            searchYoutube(STORE.searchQuery);
+
+// Get local doctors and reviews from Yelp 
+            searchYelp(STORE.searchQuery);
+        });
 };
 
 

@@ -1,0 +1,102 @@
+ul {
+    list-style: none;
+}
+
+body {
+    background-image: linear-gradient(to bottom right, rgb(126, 193, 255), rgb(196, 196, 196));
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: 'Roboto', sans-serif;
+}
+
+h2 {
+    margin-top:0;
+}
+
+.topPage {
+/*    background-color: rgb(178, 210, 255);*/
+    padding-top:40px;
+    padding-left:20px;
+    padding-right:20px;
+    padding-bottom:20px;
+    text-align:center;
+}
+
+.searchBox {
+    height:20px;
+    width:300px;
+    font-size: 16px;
+}
+
+.submitButton {
+    font-size:16px;
+    height:25px;
+    background-color: orange;
+    margin-left:10px;
+}
+
+.resultsArea{
+    text-align:center;
+}
+
+.youtubeResults {
+    display:inline-block;
+    vertical-align:top;
+    width:45%;
+    min-width:400px;
+    margin-left:2%;
+    margin-right:2%;
+}
+
+.YTimageContainer iframe {
+    width: 320px;
+	height: 180px;
+}
+
+.yelpResults {
+    display:inline-block;
+    vertical-align:top;
+    width: 45%;
+    min-width:400px;
+    margin-left: 2%;
+    margin-right:2%;
+}
+
+
+
+.eachYelpResult {
+    border: 1px solid grey;
+    margin:0;
+    padding:5px;
+    margin-bottom:5px;
+}
+
+.eachYTResult {
+    border:1px solid grey;
+    margin:0;
+    padding:5px;
+    padding-bottom:5px;
+}
+
+.YTResultsContainer {
+    border: 2px solid black;
+    padding: 10px;
+    text-align:center;
+}
+
+.yelpResultsContainer {
+    border: 2px solid black;
+    padding: 10px;
+    text-align:center;
+
+}
+
+.yelpImage {
+    width:320px;
+    height: auto;
+
+}
+
+.nameLabel {
+    font-weight: bold;
+}

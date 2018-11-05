@@ -8,42 +8,42 @@
     <link href="main.css" rel="stylesheet" type="text/css"/>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src=index.js type="text/javascript"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 <body>
     <Header>
 
     </Header>
     <main>
-<!-- area for search box-->
-        <div class='searchSection'>
-            <form role="search" class='js-searchForm' action="#">
-                <label class='searchText' for='condition'> <h2>Enter Medical Condition Here:</h2></label>
-                <link href='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/15.1.1/autocomplete-lhc_jQueryUI.min.css' rel="stylesheet">
-                <script src='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/15.1.1/autocomplete-lhc_jQuery.min.js'></script>                
-                <input type="text" class="searchBox" id="condition" placeholder="Condition">
-                <button type='submit' class='submitButton'>submit</button>
-            </form>
-        </div>
-<!-- area for location -->
-        <div class='jslocation'>
+        <div class='topPage'>
+    <!-- area for search box-->
+            <div class='searchSection'>
+                <form role="search" class='js-searchForm' action="#">
+                    <label class='searchText' for='condition'> <h2>Enter Medical Condition Here:</h2></label>
+                    <link href='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/15.1.1/autocomplete-lhc_jQueryUI.min.css' rel="stylesheet">
+                    <script src='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/15.1.1/autocomplete-lhc_jQuery.min.js'></script>                
+                    <input type="text" class="searchBox" id="condition" placeholder="Condition">
+                    <button type='submit' class='submitButton'>submit</button>
+                </form>
+            </div>
+    <!-- area for location -->
+            <div class='location'>
 
-        </div>
-
-<!-- area for google search results
-        <div class='googleResults'>
-            
-      </div> -->
-
-<!--area for youtube search results -->
-        <div class='youtubeResults'>
-
+            </div>
         </div>
 
-<!-- area for doctors -->
-        <div class='YelpResults'>
-            
-        </div>
+        <div class='resultsArea'>
 
+            <!--area for youtube search results -->
+            <div class='youtubeResults'>
+
+            </div>
+
+            <!-- area for doctors -->
+            <div class='yelpResults'>
+                
+            </div>
+        </div>
 
     </main>
 
