@@ -2,6 +2,8 @@ const YouTubeAPIURL='https://www.googleapis.com/youtube/v3/search';
 const YouTubeAPIKey='AIzaSyBM6336kxCCw2JfhksBRaIzMPOgQMpXGo4';
 const YelpAPIURL='https://api.yelp.com/v3/businesses/search'
 const YelpAPIKey='S1muYNYZsbpgz9sFQZEziIh-gIGQBP51SAHOszwWTsyLz25ediUv8aavlOV_UMBGuqZhOZxPN1MJpUK-fm8Adncy35F1CdZ9DLJxfjCiB_wbBGFsBb_MXfO_SyzaW3Yx'
+const ipstackKey='7807523ccfdad212f406e0cb37d4be5a'
+const ipstackURL='http://api.ipstack.com/'
 const STORE = {
     searchQuery:"",
     location:"pukeville"
@@ -181,46 +183,74 @@ function searchYelp(term,location){
 
 };
 
-
-function displayLocation(geo) {
-    $('.location').html(`<p>Your location is ${geo}`);
-};
-
 function youSearchedFor(term){
     $('.yourSearchTerm').html(`Results for "${term}"`);
 };
 
-function master() {
-// Obtain and display current location
 
-    STORE.location=$.getJSON('http://gd.geobytes.com/GetCityDetails?callback=?', function(data) {
-        STORE.location=data.geobytesfqcn;
-        displayLocation(STORE.location);
-        console.log(STORE.location);
-        });
+function displayLocation(city,state){
+    $('.location').html(`<p>Your location is ${city}, ${state}`);
+};
+
+function getLocation(ip) {
+
+    $.ajax({
+        url: 'https://extreme-ip-lookup.com/json/'+ip,
+        method: 'GET',
+        dataType: 'json',
+        success: function(data){
+            displayLocation(data.city, data.region);
+            STORE.location=data.city+', '+data.region;
+        }
+    })
+
+};
+
+function getIP(){
+    $.ajax({
+        url: 'https://api.ipify.org?format=json',
+        method: 'GET',
+        dataType: 'json',
+        success: function(data){
+            console.log(data.ip);
+            getLocation(data.ip);
+            let ip=data.ip;
+            console.log(`inside routine ${ip}`);
+            
+        }
+    });
+
+}
+
+
+function master() {
+
+// get and display user location
+    getIP();
 
 // Implement autocomplete function for 5K+ health conditions
 
-        new Def.Autocompleter.Search('condition','https://clinicaltables.nlm.nih.gov/api/conditions/v3/search');
+    new Def.Autocompleter.Search('condition','https://clinicaltables.nlm.nih.gov/api/conditions/v3/search');
 
 
 // Wait for user to submit search query
 
-        $('.js-searchForm').on('submit',function (event){
-            event.preventDefault();
-            STORE.searchQuery = $('.searchBox').val();      
-            $('.searchBox').val('');  
-            console.log(`Search Query is ${STORE.searchQuery}`);
+    $('.js-searchForm').on('submit',function (event){
+        event.preventDefault();
+        console.log (`after click ${STORE.location}`);
+        STORE.searchQuery = $('.searchBox').val();      
+        $('.searchBox').val('');  
+        console.log(`Search Query is ${STORE.searchQuery}`);
 
 // Display search term
-            youSearchedFor(STORE.searchQuery);
+        youSearchedFor(STORE.searchQuery);
 
 // Get videos on treatment options from YoutTube
-            searchYoutube(STORE.searchQuery);
+        searchYoutube(STORE.searchQuery);
 
 // Get local doctors and reviews from Yelp 
-            searchYelp(STORE.searchQuery, STORE.location);
-        });
+        searchYelp(STORE.searchQuery, STORE.location);
+    });
 };
 
 
